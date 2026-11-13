@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+
+# NestJS
+dist/
+
+# Tests
+coverage/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editors
+.idea/
+.vscode/
+
+# Operating systems
+.DS_Store
+Thumbs.db
+
+# Local files Helpers
+helper.md
+.turbo
+
+packages/database/.env
+packages/database/src/generated/
+packages/database/dist/
+release/
+
+docs
