@@ -17,6 +17,7 @@ import { Require_Brief_Condition_Pipe } from './pipes/require_brief_condition.pi
 import { Create_Check_DTO } from './dto/create_check.dto.js';
 import { inspect_image } from './services/inspect_image.service.js';
 import { Gemini_Reader_Service } from './services/gemini_reader.service.js';
+import { check_discuont } from './services/check_discount.service.js';
 
 @Controller('checks')
 export class Checks_Controller {
@@ -58,17 +59,26 @@ export class Checks_Controller {
     const image_info = await inspect_image(image.buffer);
     const mime_type = image_info.format === 'png' ? 'image/png' : 'image/jpeg';
 
-    const extracted_text = await this.gemini_reader.read_text(
+    const extraction = await this.gemini_reader.read_discount(
       image.buffer,
       mime_type,
     );
+
+    const checks = [];
+
+    if (brief.discount_percent !== undefined) {
+      checks.push(
+        check_discuont(extraction, Number(brief.discount_percent)),
+      );
+    }
 
     return {
       image_id: brief.image_id,
       processing_status: 'completed',
       file_size_bytes: image.size,
       image: image_info,
-      extracted_text,
+      extracted_text: extraction.extracted_text,
+      checks,
     };
   }
 }
