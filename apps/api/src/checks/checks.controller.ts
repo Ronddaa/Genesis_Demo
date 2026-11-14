@@ -11,17 +11,15 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import type {} from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Require_Brief_Condition_Pipe } from './pipes/require_brief_condition.pipe.js';
+import type {} from 'multer';
 import { Create_Check_DTO } from './dto/create_check.dto.js';
-import { inspect_image } from './services/inspect_image.service.js';
-import { Gemini_Reader_Service } from './services/gemini_reader.service.js';
-import { check_discuont } from './services/check_discount.service.js';
+import { Require_Brief_Condition_Pipe } from './pipes/require_brief_condition.pipe.js';
+import { Checks_Service } from './checks.service.js';
 
 @Controller('checks')
 export class Checks_Controller {
-  constructor(private readonly gemini_reader: Gemini_Reader_Service) {}
+  constructor(private readonly checks_service: Checks_Service) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -36,7 +34,7 @@ export class Checks_Controller {
       },
     }),
   )
-  async create_check(
+  create_check(
     @Body(
       new ValidationPipe({
         transform: true,
@@ -56,29 +54,6 @@ export class Checks_Controller {
       });
     }
 
-    const image_info = await inspect_image(image.buffer);
-    const mime_type = image_info.format === 'png' ? 'image/png' : 'image/jpeg';
-
-    const extraction = await this.gemini_reader.read_discount(
-      image.buffer,
-      mime_type,
-    );
-
-    const checks = [];
-
-    if (brief.discount_percent !== undefined) {
-      checks.push(
-        check_discuont(extraction, Number(brief.discount_percent)),
-      );
-    }
-
-    return {
-      image_id: brief.image_id,
-      processing_status: 'completed',
-      file_size_bytes: image.size,
-      image: image_info,
-      extracted_text: extraction.extracted_text,
-      checks,
-    };
+    return this.checks_service.create_check(brief, image.buffer);
   }
 }

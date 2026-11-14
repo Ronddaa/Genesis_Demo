@@ -50,7 +50,7 @@ export class Gemini_Reader_Service {
                 },
               },
               {
-                text: 'Transcribe the banner and extract all visible dsicount offers.',
+                text: 'Transcribe the banner, extract discount offers and the promo code, and identify the language of each advertising text fragment.',
               },
             ],
           },
@@ -79,13 +79,15 @@ export class Gemini_Reader_Service {
       });
       response_text = response.text?.trim();
     } catch (error: unknown) {
-        const provider_status = error instanceof Error && 'status' in error ? error.status : undefined;
+      const provider_status =
+        error instanceof Error && 'status' in error ? error.status : undefined;
 
-    console.warn('gemini_request_failed', {
+      console.warn('gemini_request_failed', {
         error_name: error instanceof Error ? error.name : 'unknown',
-        provider_status: typeof provider_status === 'number' ? provider_status : null
-    });
-    
+        provider_status:
+          typeof provider_status === 'number' ? provider_status : null,
+      });
+
       if (timeout_signal.aborted) {
         throw new GatewayTimeoutException({
           code: 'PROVIDER_TIMEOUT',

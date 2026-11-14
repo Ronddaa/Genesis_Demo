@@ -1,11 +1,18 @@
 // Path: apps/api/src/checks/schemas/discount_extraction.schema.ts
 
 import type { FromSchema } from 'json-schema-to-ts';
+import { language_fragment_schema } from './language_fragment.schema.js';
 
 export const discount_extraction_schema = {
   type: 'object',
   additionalProperties: false,
-  required: ['extracted_text', 'offers', 'offer_presence'],
+  required: [
+    'extracted_text',
+    'offers',
+    'offer_presence',
+    'language_fragments',
+    'promo_code',
+  ],
   properties: {
     extracted_text: {
       type: 'string',
@@ -58,6 +65,50 @@ export const discount_extraction_schema = {
         'Use absent only when the advertising content is readable and contains no discount offer.',
         'Use uncertain when obscured or unreadable content prevents determining whether an offer exists.',
       ].join(' '),
+    },
+    language_fragments: {
+      type: 'array',
+      description: [
+        'Extract each visible advertising text fragment, including short buttons and captions.',
+        'Split fragments when the language changes.',
+        'Exclude standalone promo codes, URLs, brand names, numbers and measurement units.',
+        'Keep ordinary words beside those values, such as the label before a promo code.',
+        'Return an empty array if there is no visible advertising wording to assess.',
+      ].join(' '),
+      items: language_fragment_schema,
+    },
+    promo_code: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['state', 'value', 'evidence'],
+      properties: {
+        state: {
+          type: 'string',
+          enum: ['readable', 'absent', 'partial', 'unreadable', 'uncertain'],
+          description: [
+            'Use readable when one promo code is fully visible.',
+            'Use absent when the advertising content is readable and no promo code appears.',
+            'Use partial when only some code characters are visible.',
+            'Use unreadable when a code is visibly present but its characters cannot be read.',
+            'Use uncertain when presence is unclear or several possible codes appear.',
+          ].join(' '),
+        },
+        value: {
+          type: ['string', 'null'],
+          description: [
+            'For readable, copy only the complete code exactly as printed.',
+            'Preserve case, digits, repeated letters, punctuation and accents.',
+            'For every other state, return null.',
+          ].join(' '),
+        },
+        evidence: {
+          type: ['string', 'null'],
+          description: [
+            'Copy the visible fragment that identifies the code, including its label when present.',
+            'Mark obscured characters as [unreadable]. Use null if no supporting text is visible.',
+          ].join(' '),
+        },
+      },
     },
   },
 } as const;

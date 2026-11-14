@@ -3,17 +3,11 @@
 import { Discount_Extraction } from '../schemas/discount_extraction.schema.js';
 import { Discount_Check } from '../types/discount.types.js';
 
-export function check_discuont(
+export function check_discount(
   extraction: Discount_Extraction,
   expected_percent: number,
 ): Discount_Check {
   const { offers, offer_presence } = extraction;
-
-  console.log('discount_rule_input', {
-    offer_presence,
-    offers_count: offers.length
-  });
-  
 
   const result: Discount_Check = {
     field: 'discount_percent',
@@ -45,12 +39,15 @@ export function check_discuont(
   }
 
   const [offer] = offers;
-  if (!offer) return result;
+
+  if (!offer) {
+    return result;
+  }
 
   result.evidence = offer.evidence.trim() || null;
 
   if (
-    !result ||
+    !result.evidence ||
     offer.readability !== 'readable' ||
     offer.value === null ||
     offer.unit === 'unknown'
@@ -76,7 +73,9 @@ export function check_discuont(
     };
   }
 
-  if (offer.condition !== 'exact') return result;
+  if (offer.condition !== 'exact') {
+    return result;
+  }
 
   const matches = offer.value === expected_percent;
 
