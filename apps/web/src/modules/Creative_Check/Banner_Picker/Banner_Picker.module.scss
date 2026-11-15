@@ -26,6 +26,11 @@
   display: none;
 }
 
+.icon{
+    fill: var(--color-white);
+    transition: 0.3s;
+}
+
 .text_add {
   font-size: 18px;
   color: var(--color-white-50);

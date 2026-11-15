@@ -6,17 +6,27 @@ import styles from "./Creative_Check.module.scss";
 import Banner_Picker from "./Banner_Picker/Banner_Picker";
 import Banner_Preview from "./Banner_Preview/Banner_Preview";
 import { useSelected_banners } from "./hooks/use_selected_banners.hook";
+import { useState } from "react";
+import { Check_Brief } from "./types/check_api.type";
+import Banner_Brief from "./Banner_Brief/Banner_Brief";
+import Check_Run from "./Check_Run/Check_Run";
 
 export default function Creative_Check() {
   const { banners, add_banners, remove_banner } = useSelected_banners();
+  const [brief, set_brief] = useState<Check_Brief>({});
 
   return (
     <section className={styles.section_creative_check}>
-      <Banner_Picker on_add={add_banners} />
+      <div className={styles.wrapper_n_header}>
+        <Banner_Brief brief={brief} on_change={set_brief} />
+        <Banner_Picker on_add={add_banners} />
+      </div>
 
       <p className={styles.text} aria-live="polite">
         Selected: {banners.length}
       </p>
+
+      <Check_Run banners={banners} brief={brief} />
 
       <ul className={styles.wrapper_banners_list}>
         {banners.map((banner, index) => (
