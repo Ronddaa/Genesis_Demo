@@ -11,6 +11,8 @@ import { Check_Brief } from "./types/check_api.type";
 import Banner_Brief from "./Banner_Brief/Banner_Brief";
 import Check_Run from "./Check_Run/Check_Run";
 
+const sprite = "/sprite.svg";
+
 export default function Creative_Check() {
   const { banners, add_banners, remove_banner } = useSelected_banners();
   const [brief, set_brief] = useState<Check_Brief>({});
@@ -20,19 +22,18 @@ export default function Creative_Check() {
       <div className={styles.wrapper_n_header}>
         <Banner_Brief brief={brief} on_change={set_brief} />
         <Banner_Picker on_add={add_banners} />
+        <Check_Run banners={banners} brief={brief} />
       </div>
 
-      <p className={styles.text} aria-live="polite">
-        Selected: {banners.length}
+      <p className={styles.text_selected} aria-live="polite">
+        Selected: <span>{banners.length}</span>
       </p>
-
-      <Check_Run banners={banners} brief={brief} />
 
       <ul className={styles.wrapper_banners_list}>
         {banners.map((banner, index) => (
           <li className={styles.banner_element} key={banner.image_id}>
             <span className={styles.span_element}>
-              00{index + 1} - {banner.image_name}
+              {index + 1} - {banner.image_name}
             </span>
             <Banner_Preview banner={banner} />
             <button
@@ -41,7 +42,9 @@ export default function Creative_Check() {
               aria-label={`Remove banner ${banner.image_name}`}
               onClick={() => remove_banner(banner.image_id)}
             >
-              Remove
+              <svg className={styles.icon_bin} width={32} height={32}>
+                <use xlinkHref={`${sprite}#icon-bin`} />
+              </svg>
             </button>
           </li>
         ))}

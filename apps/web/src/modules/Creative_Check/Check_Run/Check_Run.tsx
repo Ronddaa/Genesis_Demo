@@ -44,28 +44,68 @@ export default function Check_Run({ banners, brief }: Check_Run_Props) {
 
       {validation_error && <p role="alert">{validation_error}</p>}
 
+      <h3>Results:</h3>
+
+      <ul className={styles.wrapper_finished_count}>
+        <li className={styles.count_element}>
+          Processed: <span>{finished_count}</span> of{" "}
+          <span>{items.length}</span>
+        </li>
+        <li className={styles.count_element}>
+          Passed:{" "}
+          <span
+            className={
+              items.length === 0 ? styles.span_default : styles.span_success
+            }
+          >
+            {counts.PASS}
+          </span>
+        </li>
+        <li className={styles.count_element}>
+          With issues:{" "}
+          <span
+            className={
+              items.length === 0 ? styles.span_default : styles.span_error
+            }
+          >
+            {counts.FAIL}
+          </span>
+        </li>
+        <li className={styles.count_element}>
+          Needs review:{" "}
+          <span
+            className={
+              items.length === 0 ? styles.span_default : styles.span_review
+            }
+          >
+            {counts.REVIEW}
+          </span>
+        </li>
+        <li className={styles.count_element}>
+          Processing errors:{" "}
+          <span
+            className={
+              items.length === 0 ? styles.span_default : styles.span_error
+            }
+          >
+            {counts.error}
+          </span>
+        </li>
+      </ul>
+
+      {counts.PASS > 0 && (
+        <button
+        className={styles.show_passed_btn}
+          type="button"
+          aria-pressed={show_passed}
+          onClick={() => set_show_passed((current) => !current)}
+        >
+          {show_passed ? "Hide passed banners" : "Show passed banners"}
+        </button>
+      )}
+
       {batch && (
         <>
-          <h3>Results</h3>
-
-          <p aria-live="polite">
-            Processed {finished_count} of {items.length}
-            {" · "}Passed: {counts.PASS}
-            {" · "}With issues: {counts.FAIL}
-            {" · "}Needs review: {counts.REVIEW}
-            {" · "}Processing errors: {counts.error}
-          </p>
-
-          {counts.PASS > 0 && (
-            <button
-              type="button"
-              aria-pressed={show_passed}
-              onClick={() => set_show_passed((current) => !current)}
-            >
-              {show_passed ? "Hide passed banners" : "Show passed banners"}
-            </button>
-          )}
-
           <ul>
             {items.map(({ banner, state }, index) => {
               if (state.phase === "queued" || state.phase === "running") {

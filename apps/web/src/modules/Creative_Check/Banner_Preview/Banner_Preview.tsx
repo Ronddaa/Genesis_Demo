@@ -25,10 +25,13 @@ export default function Banner_Preview({ banner }: Banner_Preview_Props) {
   }, [banner.file]);
 
   return (
-    <img
-      className={styles.banner_image}
-      ref={image_ref}
-      alt={`img_${banner.image_name}`}
-    />
+    <div className={styles.wrapper_image}>
+      <img
+        className={styles.banner_image}
+        ref={image_ref}
+        alt={`img_${banner.image_name}`}
+      />
+      
+    </div>
   );
 }

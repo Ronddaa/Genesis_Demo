@@ -21,7 +21,7 @@ export default function Banner_Brief({ brief, on_change }: Banner_Brief_Props) {
       <h2>Compaing Brief</h2>
 
       <div className={styles.wrapper_input}>
-        <label htmlFor="brief_language">Check Language</label>
+        <label className={styles.label_brief} htmlFor="brief_language">Check Language</label>
         <input
           className={styles.input_brief}
           type="text"
@@ -37,7 +37,7 @@ export default function Banner_Brief({ brief, on_change }: Banner_Brief_Props) {
         />
       </div>
       <div className={styles.wrapper_input}>
-        <label htmlFor="discount">Exact discount (%)</label>
+        <label className={styles.label_brief} htmlFor="discount">Exact discount (%)</label>
         <input
           className={styles.input_brief}
           type="text"
@@ -55,7 +55,7 @@ export default function Banner_Brief({ brief, on_change }: Banner_Brief_Props) {
         />
       </div>
       <div className={styles.wrapper_input}>
-        <label htmlFor="promo_code">Promo Code</label>
+        <label className={styles.label_brief} htmlFor="promo_code">Promo Code</label>
         <input
           className={styles.input_brief}
           type="text"

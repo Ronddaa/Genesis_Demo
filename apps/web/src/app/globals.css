@@ -19,6 +19,8 @@
   --color-blue: #0D99FF;
   --color-blue-50: #0D99FF80;
   --color-blue-25: #0D99FF40;
+
+  --color-warning: #ff8000;
 }
 *,
 *::before,
