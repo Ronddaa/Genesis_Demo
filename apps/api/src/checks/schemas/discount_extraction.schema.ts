@@ -10,6 +10,7 @@ export const discount_extraction_schema = {
     'extracted_text',
     'offers',
     'offer_presence',
+    'expected_language_code',
     'language_fragments',
     'promo_code',
   ],
@@ -62,8 +63,18 @@ export const discount_extraction_schema = {
       enum: ['present', 'absent', 'uncertain'],
       description: [
         'Use present when a discount offer is visible, even if its amount is hidden.',
-        'Use absent only when the advertising content is readable and contains no discount offer.',
-        'Use uncertain when obscured or unreadable content prevents determining whether an offer exists.',
+        'Use absent only when the advertising content is readable and no discount offer appears.',
+        'Use uncertain when obscured or unreadable content prevents determining whether a discount claim exists.',
+      ].join(' '),
+    },
+    expected_language_code: {
+      type: ['string', 'null'],
+      pattern: '^[a-z]{2}$',
+      description: [
+        'Resolve the supplied brief_language to one lowercase ISO 639-1 code.',
+        'Use only brief_language for this field. Never infer it from the image.',
+        'Accept a language name in any language, a valid code, or an obvious misspelling with one clear interpretation.',
+        'Return null for missing, ambiguous, conflicting or unrecognizable input, or if the language has no ISO 639-1 code.',
       ].join(' '),
     },
     language_fragments: {
@@ -71,6 +82,7 @@ export const discount_extraction_schema = {
       description: [
         'Extract each visible advertising text fragment, including short buttons and captions.',
         'Split fragments when the language changes.',
+        'Identify each fragment from its own visible wording independently of brief_language.',
         'Exclude standalone promo codes, URLs, brand names, numbers and measurement units.',
         'Keep ordinary words beside those values, such as the label before a promo code.',
         'Return an empty array if there is no visible advertising wording to assess.',

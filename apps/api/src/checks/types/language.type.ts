@@ -13,10 +13,15 @@ interface Language_Finding {
 export interface Language_Check {
   field: 'language';
   status: 'PASS' | 'FAIL' | 'REVIEW';
-  code: 'MATCH' | 'LANGUAGE_MISMATCH' | 'LANGUAGE_UNCLEAR';
+  code:
+    | 'MATCH'
+    | 'LANGUAGE_MISMATCH'
+    | 'LANGUAGE_UNCLEAR'
+    | 'BRIEF_LANGUAGE_UNCLEAR';
   expected: string;
   observed: string | null;
   evidence: string | null;
   location: Language_Fragment['role'] | null;
   findings: Language_Finding[];
+  message?: string;
 }

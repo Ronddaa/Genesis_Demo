@@ -31,7 +31,7 @@ export default function Banner_Brief({ brief, on_change }: Banner_Brief_Props) {
             update_field("language", event.currentTarget.value.toLowerCase())
           }
           placeholder="e.g. it (italian)"
-          pattern="[a-z]{2}"
+          maxLength={64}
           autoCapitalize="none"
           spellCheck={false}
         />

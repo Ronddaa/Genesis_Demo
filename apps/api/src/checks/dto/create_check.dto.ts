@@ -15,8 +15,8 @@ export class Create_Check_DTO {
   @Transform(({ value }) => normalize_optional_text_util(value))
   @IsOptional()
   @IsString()
-  @Matches(/^[a-z]{2}$/, {
-    message: 'language must be a two-letter lowercase code, for example it',
+  @MaxLength(64, {
+    message: 'language must be at most 64 characters long',
   })
   language?: string;
 

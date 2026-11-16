@@ -20,7 +20,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:3001', 'https://genesis-web.inwebd2.online'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://genesis-web.inwebd2.online'],
     methods: ['GET', 'POST'],
   });
 

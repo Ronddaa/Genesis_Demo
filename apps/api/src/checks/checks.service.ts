@@ -23,6 +23,7 @@ export class Checks_Service {
     const extraction = await this.gemini_reader.read_discount(
       image_buffer,
       mime_type,
+      brief.language,
     );
 
     const checks: Array<Discount_Check | Language_Check | Promo_Code_Check> =
@@ -33,9 +34,26 @@ export class Checks_Service {
     }
 
     if (brief.language !== undefined) {
-      checks.push(
-        check_language(extraction.language_fragments, brief.language),
-      );
+      if (extraction.expected_language_code === null) {
+        checks.push({
+          field: 'language',
+          status: 'REVIEW',
+          code: 'BRIEF_LANGUAGE_UNCLEAR',
+          expected: brief.language,
+          observed: null,
+          evidence: null,
+          location: null,
+          findings: [],
+          message: 'Please specify one language to check in the brief.',
+        });
+      } else {
+        checks.push(
+          check_language(
+            extraction.language_fragments,
+            extraction.expected_language_code,
+          ),
+        );
+      }
     }
 
     if (brief.promo_code !== undefined) {

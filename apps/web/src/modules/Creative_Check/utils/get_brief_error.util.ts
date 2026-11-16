@@ -11,8 +11,8 @@ export function get_brief_error(brief: Check_Brief): string | null {
     return "Set at least one requirement in the campaign brief.";
   }
 
-  if (language && !/^[a-z]{2}$/.test(language)) {
-    return "Use a two-letter language code, for example it or en.";
+  if (language && language.length > 64) {
+    return "The language must be 64 characters or fewer.";
   }
 
   if (discount_percent && !/^(?:[1-9][0-9]?|100)$/.test(discount_percent)) {
