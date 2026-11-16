@@ -7,7 +7,7 @@
 .text_selected {
   font-size: 18px;
   margin-bottom: 40px;
-  
+
   span {
     color: var(--color-blue);
     font-weight: 600;
@@ -37,6 +37,7 @@
 
 .span_element {
   position: absolute;
+  z-index: 2;
   top: 4px;
   left: 4px;
   background-color: var(--color-blue-50);

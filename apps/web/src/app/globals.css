@@ -9,6 +9,7 @@
   --color-black-total: #000000;
 
   --color-error: #a20000;
+  --color-error-75: #a20000dd;
   --color-error-50: #a2000080;
   --color-error-25: #a2000040;
 
@@ -21,6 +22,9 @@
   --color-blue-25: #0D99FF40;
 
   --color-warning: #ff8000;
+  --color-warning-75: #ff8000dd;
+  --color-warning-50: #ff800080;
+  --color-warning-25: #ff800040;
 }
 *,
 *::before,
