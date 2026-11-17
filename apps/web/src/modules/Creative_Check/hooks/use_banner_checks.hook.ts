@@ -9,7 +9,7 @@ import type { Check_Brief, Image_Check_Result } from "../types/check_api.type";
 import type { Selected_Banner } from "../types/selected_banner.type";
 import { get_brief_error } from "../utils/get_brief_error.util";
 
-const max_parallel_checks = 2;
+const max_parallel_checks = 1;
 
 type Check_State =
   | { phase: "queued" }

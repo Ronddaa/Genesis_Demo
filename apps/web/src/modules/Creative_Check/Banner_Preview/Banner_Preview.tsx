@@ -36,6 +36,8 @@ export default function Banner_Preview({
     };
   }, [banner.file]);
 
+  
+
   return (
     <div className={styles.wrapper_image}>
       <img
@@ -51,7 +53,7 @@ export default function Banner_Preview({
         <div>
           <p>Processing error: {state.message}</p>
 
-          <button type="button" disabled={is_running} onClick={on_retry}>
+          <button className={styles.btn_retry} type="button" disabled={is_running} onClick={on_retry}>
             Retry
           </button>
         </div>

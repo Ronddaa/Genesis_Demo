@@ -1,5 +1,8 @@
 .wrapper_image {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   max-width: 240px;
 
   &:hover,
@@ -15,8 +18,22 @@
   max-width: 240px;
 }
 
+.btn_retry{
+  background-color: transparent;
+  border: 1px solid var(--color-error-75);
+  border-radius: 6px;
+  color: var(--color-white);
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  width: fit-content;
+  position: relative;
+  z-index: 4;
+}
+
 .wrapper_info {
   position: absolute;
+  overflow: hidden;
   z-index: 3;
   top: 50%;
   left: 50%;
