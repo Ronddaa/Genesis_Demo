@@ -14,6 +14,7 @@ interface Banner_Preview_Props {
   state: Banner_Check_State | undefined;
   is_running: boolean;
   on_retry: () => void;
+  on_open: () => void;
 }
 
 export default function Banner_Preview({
@@ -21,6 +22,7 @@ export default function Banner_Preview({
   state,
   is_running,
   on_retry,
+  on_open,
 }: Banner_Preview_Props) {
   const image_ref = useRef<HTMLImageElement>(null);
 
@@ -36,15 +38,20 @@ export default function Banner_Preview({
     };
   }, [banner.file]);
 
-  
-
   return (
     <div className={styles.wrapper_image}>
-      <img
-        ref={image_ref}
-        className={styles.banner_image}
-        alt={banner.image_name}
-      />
+      <button
+        className={styles.btn_open}
+        type="button"
+        aria-label={`Open ${banner.image_name} in full view`}
+        onClick={on_open}
+      >
+        <img
+          ref={image_ref}
+          className={styles.banner_image}
+          alt={banner.image_name}
+        />
+      </button>
 
       {state?.phase === "queued" && <p>Queued</p>}
       {state?.phase === "running" && <p>Checking...</p>}
@@ -53,7 +60,7 @@ export default function Banner_Preview({
         <div>
           <p>Processing error: {state.message}</p>
 
-          <button className={styles.btn_retry} type="button" disabled={is_running} onClick={on_retry}>
+          <button type="button" disabled={is_running} onClick={on_retry}>
             Retry
           </button>
         </div>

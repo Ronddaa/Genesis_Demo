@@ -4,6 +4,7 @@
 
 import { useState } from "react";
 import Banner_Brief from "./Banner_Brief/Banner_Brief";
+import Banner_Modal from "./Banner_Modal/Banner_Modal";
 import Banner_Picker from "./Banner_Picker/Banner_Picker";
 import Banner_Preview from "./Banner_Preview/Banner_Preview";
 import Check_Run from "./Check_Run/Check_Run";
@@ -22,8 +23,33 @@ export default function Creative_Check() {
   const [brief, set_brief] = useState<Check_Brief>({});
   const [show_passed, set_show_passed] = useState(false);
 
+  const [active_image_id, set_active_image_id] = useState<string | null>(null);
+
   const states_by_image_id = new Map(
     batch?.items.map(({ banner, state }) => [banner.image_id, state] as const),
+  );
+
+  const visible_banners = banners.filter((banner) => {
+    const state = states_by_image_id.get(banner.image_id);
+
+    return (
+      show_passed ||
+      !(state?.phase === "completed" && state.result.status === "PASS")
+    );
+  });
+
+  const active_banner = banners.find(
+    (banner) => banner.image_id === active_image_id,
+  );
+
+  const gallery = visible_banners.some(
+    (banner) => banner.image_id === active_image_id,
+  )
+    ? visible_banners
+    : banners;
+
+  const active_index = gallery.findIndex(
+    (banner) => banner.image_id === active_image_id,
   );
 
   function handle_start() {
@@ -53,49 +79,46 @@ export default function Creative_Check() {
       </p>
 
       <ul className={styles.wrapper_banners_list}>
-        {banners.map((banner, index) => {
-          const state = states_by_image_id.get(banner.image_id);
+        {visible_banners.map((banner) => (
+          <li className={styles.banner_element} key={banner.image_id}>
+            <span className={styles.span_element}>{banner.image_name}</span>
 
-          if (
-            !show_passed &&
-            state?.phase === "completed" &&
-            state.result.status === "PASS"
-          ) {
-            return null;
-          }
+            <Banner_Preview
+              banner={banner}
+              state={states_by_image_id.get(banner.image_id)}
+              is_running={is_running}
+              on_retry={() => void retry_check(banner.image_id)}
+              on_open={() => set_active_image_id(banner.image_id)}
+            />
 
-          return (
-            <li className={styles.banner_element} key={banner.image_id}>
-              <span className={styles.span_element}>
-                {banner.image_name}
-              </span>
-
-              <Banner_Preview
-                banner={banner}
-                state={state}
-                is_running={is_running}
-                on_retry={() => void retry_check(banner.image_id)}
-              />
-
-              <button
-                className={styles.btn_delete}
-                type="button"
-                aria-label={`Remove banner ${banner.image_name}`}
-                onClick={() => remove_banner(banner.image_id)}
+            <button
+              className={styles.btn_delete}
+              type="button"
+              aria-label={`Remove banner ${banner.image_name}`}
+              onClick={() => remove_banner(banner.image_id)}
+            >
+              <svg
+                className={styles.icon_bin}
+                width={32}
+                height={32}
+                aria-hidden="true"
               >
-                <svg
-                  className={styles.icon_bin}
-                  width={32}
-                  height={32}
-                  aria-hidden="true"
-                >
-                  <use href={`${sprite}#icon-bin`} />
-                </svg>
-              </button>
-            </li>
-          );
-        })}
+                <use href={`${sprite}#icon-bin`} />
+              </svg>
+            </button>
+          </li>
+        ))}
       </ul>
+
+      {active_banner && (
+        <Banner_Modal
+          banner={active_banner}
+          state={states_by_image_id.get(active_banner.image_id)}
+          position={active_index + 1}
+          total={gallery.length}
+          on_close={() => set_active_image_id(null)}
+        />
+      )}
     </section>
   );
 }

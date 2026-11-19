@@ -43,6 +43,7 @@
   padding: 12px;
   opacity: 0;
   transition: 0.3s;
+  pointer-events: none;
 }
 .wrapper_info_error {
   background-color: var(--color-error-75);
@@ -51,4 +52,12 @@
 .wrapper_info_warning {
   background-color: var(--color-warning-75);
   opacity: 1;
+}
+
+.btn_open {
+  display: block;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
 }
