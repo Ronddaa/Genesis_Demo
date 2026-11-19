@@ -1,0 +1,24 @@
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.is_pass {
+  background-color: var(--color-success);
+  color: var(--color-black);
+}
+
+.is_fail {
+  background-color: var(--color-error);
+  color: var(--color-white);
+}
+
+.is_review {
+  background-color: var(--color-warning);
+  color: var(--color-black);
+}

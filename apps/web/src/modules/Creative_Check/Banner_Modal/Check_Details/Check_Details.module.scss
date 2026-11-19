@@ -1,0 +1,134 @@
+.text_muted {
+  color: var(--color-white-50);
+}
+
+.block_error {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--color-error-25);
+  border: 1px solid var(--color-error);
+}
+
+.block_details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.row_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.title_section {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+
+  .row_title & {
+    margin-bottom: 0;
+  }
+}
+
+.title_check {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+// Пары «название: значение» в две колонки.
+.list_info {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  font-size: 14px;
+
+  dt {
+    color: var(--color-white-50);
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.wrapper_checks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.check_card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-white-25);
+  border-left-width: 4px;
+}
+
+.is_pass {
+  border-left-color: var(--color-success);
+}
+
+.is_fail {
+  border-left-color: var(--color-error);
+}
+
+.is_review {
+  border-left-color: var(--color-warning);
+}
+
+.text_code {
+  font-size: 14px;
+}
+
+.wrapper_findings {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.finding {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.text_location {
+  color: var(--color-white-50);
+  text-transform: capitalize;
+}
+
+.text_language {
+  color: var(--color-warning);
+  text-transform: uppercase;
+}
+
+.text_evidence,
+.text_evidence_block {
+  overflow-wrap: anywhere;
+}
+
+.text_evidence_block {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 2px solid var(--color-white-25);
+  background-color: var(--color-white-25);
+  font-size: 14px;
+}
+
+.text_extracted {
+  padding: 10px;
+  border-radius: 6px;
+  background-color: var(--color-white-25);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}

@@ -11,7 +11,7 @@ import { get_brief_error } from "../utils/get_brief_error.util";
 
 const max_parallel_checks = 1;
 
-type Check_State =
+export type Check_State =
   | { phase: "queued" }
   | { phase: "running" }
   | { phase: "completed"; result: Image_Check_Result }
